@@ -8,7 +8,7 @@ const App = () => {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [firstVisit, setFirstVisit] = useState(true);
-  const [random, setRandom] = useState(Math.floor(Math.random() * 193));
+  const [random, setRandom] = useState(Math.floor(Math.random() * items.length));
 
   const fetchImages = useCallback(async (pageNumber) => {
     setLoading(true);
@@ -44,6 +44,7 @@ const App = () => {
         document.documentElement.offsetHeight - 50
       ) {
         if (!loading) {
+          setRandom(Math.floor(Math.random() * items.length));
           setPage((prevPage) => prevPage + 1);
         }
       }
