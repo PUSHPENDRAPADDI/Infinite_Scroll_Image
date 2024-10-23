@@ -218,6 +218,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
+  const [firstVisit, setFirstVisit] = useState(true);
   const [random, setRandom] = useState(Math.floor(Math.random() * 193));
 
   const fetchImages = useCallback(async (pageNumber) => {
@@ -239,12 +240,16 @@ const App = () => {
     }
   }, [API_KEY, random]);
 
+
   useEffect(() => {
     fetchImages(page);
   }, [fetchImages, page]);
 
   useEffect(() => {
     const handleScroll = () => {
+      if (firstVisit && window.scrollY > 0) {
+        setFirstVisit(false);
+      }
       if (
         window.innerHeight + document.documentElement.scrollTop >=
         document.documentElement.offsetHeight - 50
@@ -258,10 +263,16 @@ const App = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [loading]);
+  }, [loading, firstVisit]);
 
   return (
     <div className="App">
+      {firstVisit && (
+        <div className="header">
+          <h2>Let’s start scrolling for images</h2>
+        </div>
+      )}
+
       {loading && (
         <div className="loader-container">
           <div className="loader"></div>
