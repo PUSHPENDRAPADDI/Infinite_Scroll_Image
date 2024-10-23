@@ -1,0 +1,87 @@
+/* Dark Theme with Bluish Tones */
+body {
+  margin: 0;
+  background-color: #0f1a29; /* Dark blue background */
+  color: #e0e0e0;
+  font-family: 'Arial', sans-serif;
+}
+
+.App {
+  text-align: center;
+  padding: 40px;
+}
+
+/* Loader Container */
+.loader-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Circular Neomorphic Loader */
+.loader {
+  width: 100px;
+  height: 100px;
+  border: 12px solid rgba(0, 153, 255, 0.2); /* Light blue transparent */
+  border-top: 12px solid #0099ff; /* Solid blue */
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+  box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.5), -8px -8px 15px rgba(255, 255, 255, 0.1); /* Neomorphism effect */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Image Grid */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Center single box */
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* Hide Scrollbar */
+.image-grid {
+  scrollbar-width: none; /* For Firefox */
+}
+
+.image-grid::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Edge */
+}
+
+/* Neomorphic Image Blocks */
+.image-block {
+  background: #12233a; /* Bluish box background */
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.5), -12px -12px 24px rgba(255, 255, 255, 0.1); /* Neomorphism */
+  transition: all 0.3s ease;
+}
+
+.image-block:hover {
+  transform: translateY(-10px);
+  box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.5), -15px -15px 30px rgba(255, 255, 255, 0.1);
+}
+
+.image-block img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+  display: block;
+}
+
+.image-block p {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #b0c7ff; 
+}
