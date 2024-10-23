@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './App.css';
 
 const items = [
@@ -214,22 +214,21 @@ const items = [
   "GameZone"
 ];
 const App = () => {
-  console.log(items.length);
-  
+  const API_KEY = process.env.REACT_APP_API_KEY;
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [random, setRandom] = useState(Math.floor(Math.random() * 193));
-  const API_KEY = process.env.REACT_APP_API_KEY;
-  
-  const fetchImages = async (pageNumber) => {
+
+  const fetchImages = useCallback(async (pageNumber) => {
     setLoading(true);
     try {
       const response = await fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${items[random]}&image_type=photo&orientation=horizontal&pretty=true&page=${pageNumber}`);
       const data = await response.json();
       if (data.hits.length === 0) {
-        setPage(0);
-        setRandom(Math.floor(Math.random() * 210));
+        setPage(1);
+        setRandom(Math.floor(Math.random() * items.length));
+        setImages([]);
       } else {
         setImages((prevImages) => [...prevImages, ...data.hits]);
       }
@@ -238,12 +237,11 @@ const App = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [API_KEY, random]);
 
   useEffect(() => {
-    setRandom(Math.floor(Math.random() * 210));
     fetchImages(page);
-  }, [page]);
+  }, [fetchImages, page]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -270,13 +268,13 @@ const App = () => {
         </div>
       )}
       <div className="image-grid">
-        {images.map((image,index) => (
+        {images.map((image, index) => (
           <div className="image-block" key={index}>
             <img src={image.webformatURL} alt={image.tags} />
           </div>
         ))}
       </div>
-      {loading && <div className="loader-container"><div className="loader"></div></div>} {/* Additional loader for additional data */}
+      {loading && <div className="loader-container"><div className="loader"></div></div>}
     </div>
   );
 };
