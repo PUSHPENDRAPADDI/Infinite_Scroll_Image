@@ -8,6 +8,8 @@ const App = () => {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [firstVisit, setFirstVisit] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState({});
   const [random, setRandom] = useState(Math.floor(Math.random() * items.length));
 
   const fetchImages = useCallback(async (pageNumber) => {
@@ -29,7 +31,15 @@ const App = () => {
     }
   }, [API_KEY, random]);
 
+  const openModal = (image) => {
+    setCurrentImage(image);
+    setIsModalOpen(true);
+  };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setCurrentImage({});
+  };
   useEffect(() => {
     fetchImages(page);
   }, [fetchImages, page]);
@@ -71,10 +81,23 @@ const App = () => {
       <div className="image-grid">
         {images.map((image, index) => (
           <div className="image-block" key={index}>
-            <img src={image.webformatURL} alt={image.tags} />
+            <img
+              src={image.webformatURL}
+              alt={image.tags}
+              onClick={() => openModal(image)} />
+            <div className="overlays">
+              <span>&#128065; <span className='text-image'> {image.likes}</span></span>
+              <span>&#10084; <span className='text-image'> {image.likes}</span></span>
+            </div>
           </div>
         ))}
       </div>
+      {isModalOpen && (
+        <div className="modal" onClick={closeModal}>
+          <span className="close" onClick={closeModal}>&times;</span>
+          <img className="modal-content" src={currentImage.largeImageURL} alt="Modal" />
+        </div>
+      )}
       {loading && <div className="loader-container"><div className="loader"></div></div>}
     </div>
   );
