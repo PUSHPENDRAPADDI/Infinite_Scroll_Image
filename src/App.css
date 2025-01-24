@@ -135,6 +135,10 @@ body {
   opacity: 1;
 }
 
+.overlays .userImg {
+  width: 40px;
+}
+
 .modal {
   display: flex;
   position: fixed;
